@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Exam Countdown</title>
+    <style>
+        nav {
+            display: flex;
+            /* padding: 2% 6%; */
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            flex: 1;
+            text-align: right;
+        }
+
+        .nav-links ul li {
+            list-style: none;
+            display: inline-block;
+            padding: 8px 12px;
+            position: relative;
+        }
+
+        .nav-links ul li a {
+            color: black;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .nav-links ul li ::after {
+            content: '';
+            width: 0%;
+            height: 0.23vh;
+            background: rgb(4, 11, 77);
+            display: block;
+            margin: auto;
+            transition: 0.5s;
+        }
+
+        .nav-links ul li :hover::after {
+            width: 100%;
+        }
+
+        body {
+            background-image: url(Countdown.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            text-align: start;
+            padding: 5px ;
+            justify-content: center;
+        }
+
+        h1 {
+            padding-left: 100px;
+            padding-top: 15vh;
+            margin-bottom: 20px;
+        }
+        #examForm , #countDown{
+            padding-left: 100px;
+        }
+        #countdown {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            border-radius: 7px;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 200px;
+            border-radius: 7px;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: rgb(255, 219, 88);
+            color: black;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="header">
+        <nav>
+            <div class="logo" style="float:left"><img src="logo.png" style="height: 7vh;"></div>
+            <div class="nav-links" id="navLinks">
+                <i class="fa-solid fa-xmark" onclick="hideMenu()"></i>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="Countdown.html">Countdown</a></li>
+                    <li><a href="goals.html">To-Do List</a></li>
+                    <li><a href="">Contact</a></li>
+                </ul>
+            </div>
+            <i class="fa-solid fa-bars" onclick="showMenu()"></i>
+        </nav>
+    </section>
+    <div class="CD"><h1>Exam Countdown</h1>
+    <form id="examForm">
+        <label for="name">Exam Name:</label>
+        <input type="text" id="name" required><br><br>
+        <label for="examDate">Exam Date: </label>
+        <input type="date" id="examDate" required><br><br><br>
+        <input type="submit" value="Calculate Countdown">
+    </form>
+
+    <div id="countdown"></div>
+
+    <script>
+        document.getElementById('examForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            var name = document.getElementById('name').value;
+            var examDate = document.getElementById('examDate').value;
+
+            // Update countdown every second
+            setInterval(function () {
+                // Calculate the countdown
+                var countdownDate = new Date(examDate).getTime();
+                var now = new Date().getTime();
+                var distance = countdownDate - now;
+
+                // Time calculations for days, hours, minutes, and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the countdown
+                var countdownElement = document.getElementById('countdown');
+                countdownElement.innerHTML = name + " exam is in " + days + " days, " +
+                    hours + " hours, " +
+                    minutes + " minutes, and " +
+                    seconds + " seconds.";
+
+            }, 1000); // Update every 1 second
+        });
+    </script></div>
+    </div>
+</body>
+
+</html>

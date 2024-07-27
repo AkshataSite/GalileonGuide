@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily Goals</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>.container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  body{
+    
+    background-image: url(ToDo.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  h1 {
+    text-align: center;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  #completionMessage {
+    text-align: center;
+    font-weight: bold;
+    display: none;
+    color: green;
+  }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo" style="float:left"><img src="logo.png" style="height: 7vh;"></div>
+    <div class="nav-links" id="navLinks">
+        <i class="fa-solid fa-xmark" onclick="hideMenu()"></i>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Countdown.html">Countdown</a></li>
+            <li><a href="goals.html">To-Do List</a></li>
+            <li><a href="">Contact</a></li>
+        </ul>
+    </div>
+    <i class="fa-solid fa-bars" onclick="showMenu()"></i>
+</nav>
+  <div class="container">
+    <h1>Daily Goals</h1>
+    <ul id="goalList"></ul>
+    <p id="completionMessage"></p>
+  </div>
+
+  <script>// Prompt the user to enter goals
+    const goals = [];
+    const goalCount = prompt('Enter the number of daily goals:');
+    
+    for (let i = 1; i <= goalCount; i++) {
+      const goal = prompt(`Enter goal ${i}:`);
+      goals.push(goal);
+    }
+    
+    // Add goals to the list
+    const goalList = document.getElementById('goalList');
+    
+    goals.forEach(goal => {
+      const li = document.createElement('li');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      const label = document.createElement('label');
+      label.textContent = goal;
+    
+      li.appendChild(checkbox);
+      li.appendChild(label);
+      goalList.appendChild(li);
+    });
+    
+    // Handle checkbox click event
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const completionMessage = document.getElementById('completionMessage');
+    
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', function() {
+        const parentLi = this.parentNode;
+        if (this.checked) {
+          parentLi.classList.add('completed');
+        } else {
+          parentLi.classList.remove('completed');
+        }
+    
+        // Check if all goals are completed
+        const allCompleted = Array.from(checkboxes).every(checkbox => checkbox.checked);
+    
+        if (allCompleted) {
+          completionMessage.style.display = 'block';
+          alert('Good job!');
+        } else {
+          completionMessage.style.display = 'none';
+        }
+      });
+    });
+    </script>
+</body>
+</html>
