@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create New Test</title>
+    
+    <style>
+        body {
+            background-image: url(https://media.istockphoto.com/id/1153938533/photo/abstract-blurred-blue-background-with-double-exposure-of-bokeh-circle-glitter-for-design.jpg?b=1&s=612x612&w=0&k=20&c=12jekuClu3HqrmmqRs_urcsV7g9X6QT7nqKvp3-j_AU=);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .container {
+            width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        select,
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: rgb(255, 219, 88);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #testInfo {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Create New Test</h1>
+        <div class="form-group">
+            <label for="topic">Select a Topic:</label>
+            <select id="topic">
+                <option value="math">Math</option>
+                <option value="science">Science</option>
+                <option value="history">History</option>
+                <!-- Add more topic options as needed -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="difficulty">Select Difficulty Level:</label>
+            <select id="difficulty">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="numQuestions">Number of Questions:</label>
+            <input type="number" id="numQuestions" min="1" max="20">
+        </div>
+        <button id="createTestBtn">Create Test</button>
+        <div id="testInfo"></div>
+    </div>
+
+    <script>// Define the available topics and their corresponding question banks
+        const questionBanks = {
+            math: ['Question 1 (Math)', 'Question 2 (Math)', 'Question 3 (Math)'],
+            science: ['Question 1 (Science)', 'Question 2 (Science)', 'Question 3 (Science)'],
+            history: ['Question 1 (History)', 'Question 2 (History)', 'Question 3 (History)']
+        };
+
+        // Function to create the test
+        function createTest() {
+            const topicSelect = document.getElementById('topic');
+            const difficultySelect = document.getElementById('difficulty');
+            const numQuestionsInput = document.getElementById('numQuestions');
+            const testInfoDiv = document.getElementById('testInfo');
+
+            const topic = topicSelect.value;
+            const difficulty = difficultySelect.value;
+            const numQuestions = parseInt(numQuestionsInput.value);
+
+            if (topic && difficulty && numQuestions) {
+                // Get the question bank for the selected topic
+                const questionBank = questionBanks[topic];
+
+                if (questionBank && questionBank.length >= numQuestions) {
+                    // Randomly select the specified number of questions
+                    const selectedQuestions = getRandomQuestions(questionBank, numQuestions);
+
+                    // Display the test information
+                    testInfoDiv.innerHTML = `<p>Topic: ${topic}</p>
+                                     <p>Difficulty: ${difficulty}</p>
+                                     <p>Number of Questions: ${numQuestions}</p>
+                                     <p>Selected Questions:</p>
+                                     <ul>${selectedQuestions.map(question => `<li>${question}</li>`).join('')}</ul>`;
+                } else {
+                    testInfoDiv.textContent = 'Insufficient questions available for the selected topic.';
+                }
+            } else {
+                testInfoDiv.textContent = 'Please select a topic, difficulty level, and specify the number of questions.';
+            }
+        }
+
+        // Function to randomly select questions from a question bank
+        function getRandomQuestions(questionBank, numQuestions) {
+            const shuffledQuestions = questionBank.sort(() => 0.5 - Math.random());
+            return shuffledQuestions.slice(0, numQuestions);
+        }
+
+        // Add event listener to the create test button
+        const createTestBtn = document.getElementById('createTestBtn');
+        createTestBtn.addEventListener('click', createTest);
+    </script>
+</body>
+
+</html>
